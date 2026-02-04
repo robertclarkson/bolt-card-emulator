@@ -174,6 +174,54 @@ Create native Android module that:
 3. Server increments expected counter
 4. User manually syncs app counter periodically
 
+## NFC App Selection Dialog - Expected Behavior
+
+### Why the Dialog Appears
+
+When tapping the phone to an NFC reader, Android may show a dialog asking "Complete action using..." with a list of apps. This is **expected and correct behavior** for the Bolt Card emulator.
+
+**Technical Reason**:
+- The app uses `android:category="other"` in HCE configuration (correct for NDEF tag emulation)
+- Android requires user interaction for `category="other"` apps when multiple apps handle the same AID
+- Only `category="payment"` apps can be set as default to bypass the dialog
+- The NTAG424 DNA uses standard NDEF tag AID (D2760000850101), which multiple apps may handle
+
+**This is NOT a bug** - it's Android's security mechanism to prevent apps from hijacking NFC communications without user consent.
+
+### How to Minimize the Dialog
+
+Users can reduce or eliminate the dialog by:
+
+1. **Disable/Uninstall Competing NFC Apps**
+   - Uninstall apps like "NFC Tools", "NFC TagInfo", or other NFC reader apps
+   - Only keep Bolt Card Emulator and essential apps (Google Pay, etc.)
+   - If Bolt Card Emulator is the only app handling AID D2760000850101, no dialog appears
+
+2. **Tap and Select Process**
+   - When dialog appears, tap "Bolt Card Emulator"
+   - Selection is valid for current NFC session
+   - For next tap, dialog may appear again (Android behavior)
+   - Quick tap becomes muscle memory after a few uses
+
+3. **Lightning Wallet NFC Apps**
+   - Some Lightning wallets have their own NFC readers
+   - These may not cause conflicts if they use different AIDs
+   - Test with your specific wallet app
+
+### Why NOT Changing to category="payment"
+
+**Keeping `category="other"` is correct** because:
+1. **NDEF Tag AID is standard** - D2760000850101 is the universal NDEF Type 4 tag identifier
+2. **Not a traditional payment app** - Bolt Cards use LNURL protocol, not EMV payment commands
+3. **Reader compatibility** - NFC readers expect NDEF tags to use the standard AID
+4. **Android guidelines** - Payment category is for EMV-compliant apps only
+
+Changing to `category="payment"` would:
+- Require using a bank-issued payment AID instead of NDEF AID
+- Break compatibility with standard NFC readers expecting NDEF
+- Require backend changes to support EMV commands
+- Violate Android's HCE guidelines for non-EMV apps
+
 ## Conclusion
 
 The HCE detection issue is now fixed! The app should correctly identify HCE support on compatible devices. However, full dynamic SDM (counter increment per tap) requires additional native development beyond react-native-hce's current API.
@@ -182,6 +230,7 @@ For MVP testing:
 - ✅ HCE detection works
 - ✅ NDEF emulation works
 - ✅ LNURL with SDM transmitted
+- ✅ NFC app selection dialog is expected behavior (not a bug)
 - ⚠️ Counter increment requires manual disable/enable between taps
 
 This is sufficient for testing the cryptographic implementation and LNURL format, but not for production use as a real Bolt Card replacement.

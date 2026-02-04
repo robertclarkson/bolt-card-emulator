@@ -186,6 +186,20 @@ export default function HomeScreen({ navigation }: HomeScreenProps) {
             </Paragraph>
           </Card.Content>
         </Card>
+
+        <Card style={styles.infoCard}>
+          <Card.Content>
+            <Title style={styles.infoTitle}>NFC App Selection</Title>
+            <Paragraph style={styles.infoText}>
+              When tapping to a reader, Android may ask "Complete action using..."
+              This is normal security behavior. Select "Bolt Card Emulator" from the list.
+              {'\n\n'}
+              To avoid the dialog: Uninstall other NFC reader apps like "NFC Tools"
+              or "TagInfo". If Bolt Card Emulator is the only app handling NFC tags,
+              it will be selected automatically.
+            </Paragraph>
+          </Card.Content>
+        </Card>
       </View>
     </ScrollView>
   );
@@ -256,5 +270,19 @@ const styles = StyleSheet.create({
   instructionTitle: {
     fontSize: 16,
     marginBottom: 8,
+  },
+  infoCard: {
+    marginBottom: 16,
+    backgroundColor: '#e3f2fd',
+  },
+  infoTitle: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: '#1976d2',
+  },
+  infoText: {
+    fontSize: 13,
+    color: '#424242',
+    lineHeight: 20,
   },
 });

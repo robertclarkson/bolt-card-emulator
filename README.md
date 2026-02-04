@@ -195,6 +195,21 @@ Server validates CMAC to ensure tap authenticity.
 
 ## Troubleshooting
 
+### NFC App Selection Dialog Appears Every Time
+
+**This is normal Android behavior**, not a bug. Here's why:
+
+- The app uses `category="other"` (correct for NDEF tag emulation)
+- Android shows a dialog when multiple apps handle the same NFC tag type
+- This prevents malicious apps from hijacking NFC without user consent
+
+**To minimize the dialog**:
+1. Uninstall other NFC reader apps (NFC Tools, TagInfo, etc.)
+2. Keep only Bolt Card Emulator and essential payment apps
+3. If it's the only handler, no dialog appears
+
+**Alternative**: Accept the dialog as a security feature - it ensures you're intentionally using Bolt Card Emulator and not another app.
+
 ### HCE Not Supported
 - Ensure device has NFC hardware
 - Check Android version (4.4+)

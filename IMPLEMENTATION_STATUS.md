@@ -248,6 +248,7 @@ The app is ready to:
 3. **No authentication**: Full EV2/LRP auth not implemented
 4. **Simplified NDEF**: Basic Type 4 tag only
 5. **No error recovery**: Limited error handling in HCE layer
+6. **NFC App Selection Dialog**: Android shows app selection dialog when multiple NFC apps are installed (this is expected behavior, not a bug - see HCE_FIX_SUMMARY.md)
 
 ---
 

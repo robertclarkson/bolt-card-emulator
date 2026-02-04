@@ -53,13 +53,24 @@ If you want full LNURL-withdraw functionality:
 2. Toggle "Card Active" to ON
 3. Green indicator shows it's active
 
-#### b. Test with NFC Reader
+#### b. Expected NFC Behavior
+
+When you tap to an NFC reader:
+1. ✅ Android may show "Complete action using..." dialog
+2. ✅ Select "Bolt Card Emulator"
+3. ✅ NFC communication proceeds normally
+
+This dialog is **Android's security mechanism** and is expected behavior for apps in the "other" category (non-payment HCE apps).
+
+To reduce dialog frequency, uninstall competing NFC apps.
+
+#### c. Test with NFC Reader
 1. Open "NFC Tools" or similar app on another phone
 2. Tap your phone to the reader
 3. Should detect NDEF tag
 4. View LNURL data in tag contents
 
-#### c. Test with Lightning Wallet
+#### d. Test with Lightning Wallet
 1. Open Lightning wallet with LNURL support (BlueWallet, Phoenix, Zeus)
 2. Tap wallet to your phone
 3. Should show withdraw request
